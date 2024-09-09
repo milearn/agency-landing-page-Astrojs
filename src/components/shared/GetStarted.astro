@@ -2,8 +2,37 @@
 import Button from "./Button.astro";
 ---
 
+<script>
+  const addEntry = (detail) =>
+    fetch(
+      "https://script.google.com/macros/s/AKfycbxO_w5TQqow3TzF5y7TK0yGarRkP43412LeZyywYP7GCssD3M6De8o0CRpzF5U_6NXb/exec",
+      {
+        redirect: "follow",
+        method: "POST",
+        body: `Contact=${detail}&Time=${new Date().toString()}`,
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+      }
+    );
+  const form = document.getElementById("form1");
+  form?.addEventListener("submit", () => {
+    const regex = new RegExp(
+      `(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$)|(^[0-9]{10}$)`
+    );
+
+    const detail = form.getElementById("contact_details").value;
+    if (regex.test(detail)) {
+      addEntry(detail).then(() => {
+        form.reset();
+      });
+    }
+  });
+</script>
+
 <div class="flex sm:flex-row flex-col gap-5 w-full">
   <form
+    id="form1"
     action="#"
     class="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3 shadow-lg shadow-box-shadow
                 border border-box-border bg-box-bg rounded-full ease-linear focus-within:bg-body focus-within:border-primary"
@@ -26,14 +55,17 @@ import Button from "./Button.astro";
       </svg>
     </span>
     <input
-      type="email"
       name=""
-      id=""
+      id="contact_details"
       placeholder="Email or Phone"
       class="w-full py-3 outline-none bg-transparent"
     />
-    <Button variant={"primary"} className={"min-w-max text-white"}>
-      <span class="hidden sm:flex relative z-[5]"> Get Started </span>
+    <Button
+      id="get_started_button"
+      variant={"primary"}
+      className={"min-w-max text-white"}
+    >
+      <span class="hidden sm:flex relative z-[5]"> Get Started</span>
       <span class="flex sm:hidden relative z-[5]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
