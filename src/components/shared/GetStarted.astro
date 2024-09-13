@@ -1,40 +1,19 @@
 ---
+export interface Props {
+  id: string;
+}
+
+import Info from "../cards/Info.astro";
 import Button from "./Button.astro";
+import Paragraph from "./Paragraph.astro";
+const { id } = Astro.props;
 ---
 
-<script>
-  const addEntry = (detail) =>
-    fetch(
-      "https://script.google.com/macros/s/AKfycbxO_w5TQqow3TzF5y7TK0yGarRkP43412LeZyywYP7GCssD3M6De8o0CRpzF5U_6NXb/exec",
-      {
-        redirect: "follow",
-        method: "POST",
-        body: `Contact=${detail}&Time=${new Date().toString()}`,
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-      }
-    );
-  const form = document.getElementById("form1");
-  form?.addEventListener("submit", () => {
-    const regex = new RegExp(
-      `(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$)|(^[0-9]{10}$)`
-    );
-
-    const detail = form.getElementById("contact_details").value;
-    if (regex.test(detail)) {
-      addEntry(detail).then(() => {
-        form.reset();
-      });
-    }
-  });
-</script>
-
-<div class="flex sm:flex-row flex-col gap-5 w-full">
+<div class="flex sm:flex-row flex-col gap-5 w-full justify-center relative">
   <form
-    id="form1"
+    id={id}
     action="#"
-    class="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3 shadow-lg shadow-box-shadow
+    class="get_started_form py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3 shadow-lg shadow-box-shadow
                 border border-box-border bg-box-bg rounded-full ease-linear focus-within:bg-body focus-within:border-primary"
   >
     <span class="min-w-max pr-2 border-r border-box-border">
@@ -54,14 +33,16 @@ import Button from "./Button.astro";
     </span>
     <input
       name=""
-      id="contact_details"
+      autocomplete="email mobile"
       placeholder="Email or Phone"
-      class="w-full py-3 outline-none bg-transparent"
+      class="w-full py-3 outline-none bg-transparent contact_details"
     />
+
+    <input type="submit" hidden />
     <Button
       id="get_started_button"
       variant={"primary"}
-      className={"min-w-max text-white"}
+      className={"min-w-max text-white "}
     >
       <span class="hidden sm:flex relative z-[5]"> Get Started</span>
       <span class="flex sm:hidden relative z-[5]">
@@ -81,5 +62,94 @@ import Button from "./Button.astro";
         </svg>
       </span>
     </Button>
+    <span
+      class="hidden input_error text-sm font-thin text-[#ff6969] absolute -bottom-7 animate-fade-in"
+    >
+      Something went wrong. Please try Again.
+    </span>
   </form>
+
+  <Paragraph
+    className="hidden thanks_reponse text-center animate-fade-in	px-7 py-4 bg-slate-300/10 drop-shadow-2xl rounded-2xl	"
+  >
+    <span class="text-lg md:text-xl font-semibold text-heading-2">
+      Thanks for your resposne !
+    </span><br />
+     Our team will get back to you shortly
+  </Paragraph>
 </div>
+
+<script define:vars={{ id }} is:inline>
+const addEntry = (detail) =>
+  fetch(
+    "https://script.google.com/macros/s/AKfycbxO_w5TQqow3TzF5y7TK0yGarRkP43412LeZyywYP7GCssD3M6De8o0CRpzF5U_6NXb/exec",
+    {
+      redirect: "follow",
+      method: "POST",
+      body: `Contact=${detail}&Time=${new Date().toString()}`,
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+    }
+  );
+const regex = new RegExp(
+  `(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$)|(^[0-9]{10}$)`
+);
+
+const form = document.getElementById(id);
+
+const inputElm = form.querySelector(".contact_details");
+const btnElm = form.querySelector("#get_started_button");
+const errorTextElm = form.querySelector(".input_error");
+
+form?.addEventListener("keydown", (event) => {
+  errorTextElm.classList.add("hidden");
+  errorTextElm.innerHTML = "";
+});
+
+form?.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const contactValue = inputElm.value;
+
+  if (!regex.test(inputElm.value)) {
+    errorTextElm.classList.remove("hidden");
+    errorTextElm.innerHTML =
+      "Please enter valid email or 10 digit mobile number.";
+    return;
+  }
+
+  inputElm.setAttribute("disabled", "true");
+  btnElm.setAttribute("disabled", "true");
+
+  document.querySelectorAll(".get_started_form").forEach((elm) => {
+    elm.classList.add("motion-safe:animate-pulse", "cursor-not-allowed");
+  });
+
+  addEntry(contactValue)
+    .then(() => {
+      errorTextElm.classList.add("hidden");
+      document.querySelectorAll(".get_started_form").forEach((elm) => {
+        elm.classList.add("hidden");
+      });
+      document.querySelectorAll(".thanks_reponse").forEach((elm) => {
+        elm.classList.remove("hidden");
+      });
+    })
+    .catch(() => {
+      errorTextElm.classList.remove("hidden");
+      errorTextElm.innerHTML = "Something went wrong. Please try Again.";
+    })
+    .finally(() => {
+      inputElm.setAttribute("disabled", "false");
+      btnElm.setAttribute("disabled", "false");
+
+      document.querySelectorAll(".get_started_form").forEach((elm) => {
+        elm.classList.remove(
+          "motion-safe:animate-pulse",
+          "cursor-not-allowed"
+        );
+      });
+    });
+});
+</script>

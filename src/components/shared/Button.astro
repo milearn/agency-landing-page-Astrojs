@@ -3,9 +3,10 @@ export interface Props {
   className?: string;
   variant: "primary" | "secondary";
   id?: string;
+  disabled?: boolean;
 }
 
-const { className, variant, id } = Astro.props;
+const { className, variant, id, disabled = false } = Astro.props;
 
 const getThemeStyle = (variant: "primary" | "secondary") => {
   if (variant === "primary") {
@@ -17,6 +18,7 @@ const getThemeStyle = (variant: "primary" | "secondary") => {
 
 <button
   id={id}
+  disabled={disabled}
   class={`px-6 py-3 rounded-full outline-none relative overflow-hidden border duration-300 ease-linear
                     after:absolute after:inset-x-0 after:aspect-square after:scale-0 after:opacity-70 after:origin-center after:duration-300 after:ease-linear after:rounded-full after:top-0 after:left-0 after:bg-[#172554]
                     ${getThemeStyle(
