@@ -16,18 +16,18 @@ module.exports = {
         "heading-3": "rgb(var(--heading-3))",
       },
       screens: {
-        midmd: "880px",
+        midmd: "800px",
       },
 
-        keyframes: {
-          "fade-in": {
-            '0%': { opacity: 0 },
-            '100%': { opacity: 1 },
-          }
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
-        animation:{
-          "fade-in":"fade-in 0.2s linear",
-        }
+      },
+      animation: {
+        "fade-in": "fade-in 0.2s linear",
+      },
     },
   },
   plugins: [],
