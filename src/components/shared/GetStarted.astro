@@ -79,7 +79,7 @@ const { id } = Astro.props;
     class="fixed left-0 top-0 bg-black/[.8] hidden w-screen h-screen transition-opacity duration-500 z-10 h-full"
   >
     <div
-      class="bg-white relative rounded shadow-md p-8 mx-auto mt-[80px] midmd:mt-[150px] my-[50px] w-full midmd:w-1/2 h-full midmd:h-auto"
+      class="bg-white relative rounded shadow-md p-8 pb-[120px] midmd:pb-8 mx-auto mt-[0] midmd:mt-[150px] my-[50px] w-full midmd:w-1/2 h-full midmd:h-auto"
     >
       <iframe
         class="survey-form min-h-[500px]"
@@ -90,7 +90,7 @@ const { id } = Astro.props;
         marginheight="0"
         marginwidth="0"></iframe>
       <div
-        class="close-btn absolute top-[12px] right-[12px] text-black text-sm hidden cursor-pointer"
+        class="close-btn absolute top-[12px] right-[12px] text-black text-md hidden cursor-pointer"
       >
         X
       </div>
@@ -112,20 +112,20 @@ const { id } = Astro.props;
 </div>
 
 <script define:vars={{ id }} is:inline>
-  const addEntry = (detail) =>
-    fetch(
-      "https://script.google.com/macros/s/AKfycbxO_w5TQqow3TzF5y7TK0yGarRkP43412LeZyywYP7GCssD3M6De8o0CRpzF5U_6NXb/exec",
-      {
-        redirect: "follow",
-        method: "POST",
-        body: `Contact=${detail}&Time=${new Date().toString()}`,
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-      }
-    );
+  // const addEntry = (detail) =>
+  //   fetch(
+  //     "https://script.google.com/macros/s/AKfycbxO_w5TQqow3TzF5y7TK0yGarRkP43412LeZyywYP7GCssD3M6De8o0CRpzF5U_6NXb/exec",
+  //     {
+  //       redirect: "follow",
+  //       method: "POST",
+  //       body: `Contact=${detail}&Time=${new Date().toString()}`,
+  //       headers: {
+  //         "Content-Type": "text/plain;charset=utf-8",
+  //       },
+  //     }
+  //   );
   // For testing
-  // const addEntry = (detail) => Promise.resolve(detail);
+  const addEntry = (detail) => Promise.resolve(detail);
   const regex = new RegExp(
     `(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$)|(^[0-9]{10}$)`
   );
