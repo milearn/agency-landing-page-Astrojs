@@ -76,16 +76,16 @@ const { id } = Astro.props;
   </form>
   <div
     id="dialog"
-    class="fixed left-0 top-0 bg-black/[.8] hidden w-screen h-screen transition-opacity duration-500 z-10"
+    class="fixed left-0 top-0 bg-black/[.8] hidden w-screen h-screen transition-opacity duration-500 z-10 h-full"
   >
     <div
-      class="bg-white relative rounded shadow-md p-8 mx-auto mt-[150px] my-[50px] w-full lg:w-1/2"
+      class="bg-white relative rounded shadow-md p-8 mx-auto mt-[80px] midmd:mt-[150px] my-[50px] w-full midmd:w-1/2 h-full midmd:h-auto"
     >
       <iframe
-        class="survey-form"
+        class="survey-form min-h-[500px]"
         src="https://app.youform.com/forms/tq5uavv2"
         width="100%"
-        height="500"
+        height="100%"
         frameborder="0"
         marginheight="0"
         marginwidth="0"></iframe>
@@ -195,7 +195,9 @@ const { id } = Astro.props;
       });
       if (isMobile) {
         setTimeout(() => {
-          window.open("https://app.youform.com/forms/tq5uavv2", "_blank");
+          showDialog();
+
+          // window.open("https://app.youform.com/forms/tq5uavv2", "_blank");
         }, 5000);
       } else {
         setTimeout(() => {
