@@ -112,20 +112,20 @@ const { id } = Astro.props;
 </div>
 
 <script define:vars={{ id }} is:inline>
-  // const addEntry = (detail) =>
-  //   fetch(
-  //     "https://script.google.com/macros/s/AKfycbxO_w5TQqow3TzF5y7TK0yGarRkP43412LeZyywYP7GCssD3M6De8o0CRpzF5U_6NXb/exec",
-  //     {
-  //       redirect: "follow",
-  //       method: "POST",
-  //       body: `Contact=${detail}&Time=${new Date().toString()}`,
-  //       headers: {
-  //         "Content-Type": "text/plain;charset=utf-8",
-  //       },
-  //     }
-  //   );
+  const addEntry = (detail) =>
+    fetch(
+      "https://script.google.com/macros/s/AKfycbxO_w5TQqow3TzF5y7TK0yGarRkP43412LeZyywYP7GCssD3M6De8o0CRpzF5U_6NXb/exec",
+      {
+        redirect: "follow",
+        method: "POST",
+        body: `Contact=${detail}&Time=${new Date().toString()}`,
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+      }
+    );
   // For testing
-  const addEntry = (detail) => Promise.resolve(detail);
+  // const addEntry = (detail) => Promise.resolve(detail);
   const regex = new RegExp(
     `(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$)|(^[0-9]{10}$)`
   );
