@@ -185,6 +185,11 @@ const { id } = Astro.props;
     document.querySelectorAll(".get_started_form").forEach((elm) => {
       elm.classList.add("motion-safe:animate-pulse", "cursor-not-allowed");
     });
+    const surveyIframe = document.getElementsByClassName("survey-form")[0];
+    surveyIframe.setAttribute(
+      "src",
+      surveyIframe.src + "?email=" + contactValue
+    );
     setTimeout(() => {
       errorTextElm.classList.add("hidden");
       document.querySelectorAll(".get_started_form").forEach((elm) => {
@@ -193,6 +198,7 @@ const { id } = Astro.props;
       document.querySelectorAll(".thanks_reponse").forEach((elm) => {
         elm.classList.remove("hidden");
       });
+
       if (isMobile) {
         setTimeout(() => {
           showDialog();
